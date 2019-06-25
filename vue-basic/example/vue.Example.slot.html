@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="../assets/js/vue.js"></script>
+<title>Vue 内置组件-slot</title>
+</head>
+<body>
+<h1>Vue 内置组件-slot</h1>
+<hr>
+<div id="app">
+    <kang>
+        <span slot="blogUrl">{{kangData.blogUrl}}</span>
+        <span slot="netName">{{kangData.netName}}</span>
+        <span slot="skill">{{kangData.skill}}</span>
+    </kang>
+</div>
+<template id="tep">
+    <div>
+        <p>address：<slot name="blogUrl"></slot></p>
+        <p>author：<slot name="netName"></slot></p>
+        <p>job：<slot name="skill"></slot></p>
+    </div>
+</template>
+<script>
+var kang = {
+    template: '#tep'
+}
+var app = new Vue({
+    el: '#app',
+    data: {
+        kangData: {
+            blogUrl: 'http://www.bilibili.com/',
+            netName: 'kang',
+            skill: 'web前端'
+        }
+    },
+    components: {
+        "kang": kang
+    }
+})
+</script>
+</body>
+</html>
