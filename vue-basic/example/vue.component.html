@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="../assets/js/vue.js"></script>
+<title>Component 组件初识</title>
+</head>
+<body>
+<h1>Component 组件初识</h1>
+<hr>
+<div id="app">
+    <kang></kang>
+    <panda></panda>
+</div>
+<script>
+    Vue.component('kang', {
+        template: `<div style="color: red">我是全局的 kang 组件</div>`
+    })
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello World!'
+        },
+        components: {
+            // 必须是字符串
+            "panda": {
+                template: `<div style="color: green">我是局部的 panda 组件</div>`
+            }
+        }
+    })
+</script>
+</body>
+</html>
