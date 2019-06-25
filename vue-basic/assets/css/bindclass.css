@@ -1,0 +1,7 @@
+.classA{ background: #f00;}
+.classB{ font-size: 150%;}
+.classC{ background: #f0f;}
+
+[v-cloak] {
+    display: none;
+}
