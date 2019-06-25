@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="../assets/js/vue.js"></script>
+<title>vif-vshow</title>
+</head>
+<body>
+<h1>vif-vshow</h1>
+<hr>
+<div id="app">
+    <ol>
+        <li v-for="item in items">{{item}}</li>
+    </ol>
+    <hr>
+    <h6>排序</h6>
+    <ol>
+        <li v-for="item2 in sortItems">{{item2}}</li>
+    </ol>
+    <hr>
+    <h6>循环输出</h6>
+    <ul>
+        <li v-for="student in students">
+            {{student.name}} - {{student.age}}
+        </li>
+    </ul>
+    <hr>
+    <h6>排序循环输出</h6>
+    <ul>
+        <li v-for="student in sortStudent">
+            {{student.name}} - {{student.age}}
+        </li>
+    </ul>
+</div>
+<script>
+function sortNumber(a, b){return a-b};
+function sortByKey(array, key){
+    return array.sort(function(a,b){
+      var x=a[key];
+      var y=b[key];
+      return ((x<y)?-1:((x>y)?1:0));
+   });
+}
+var app = new Vue({
+    el: '#app',
+    data: {
+        items:[20,23,18,65,32,19,54,56,41],
+        items2:[20,23,18,65,32,19,5,56,41],
+        students:[
+            {name:'jspang',age:32},
+            {name:'Panda',age:30},
+            {name:'PanPaN',age:21},
+            {name:'King',age:45}
+        ]
+    },
+    computed: {
+        sortItems: function (){
+            return this.items2.sort(sortNumber)
+        },
+        sortStudent:function(){
+            return sortByKey(this.students,'age');
+        }
+    }
+})
+</script>
+</body>
+</html>
