@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{msg}}</h2>
-        <h3>{{$store.state.count}}</h3>
+        <h3>{{$store.state.a.count}}</h3>
         <h4>{{count}}</h4>
         <p>
             <button @click="$store.commit('add', 10)">Add</button>
@@ -37,11 +37,14 @@ export default {
     // }),
     // 3.
     computed: {
-        ...mapState(['count']),
+        // ...mapState(['count']),
         // count(){
         //     return this.$store.getters.count;
         // }
-        ...mapGetters(['count'])
+        // ...mapGetters(['count'])
+        count (){
+            return this.$store.state.a.count;
+        }
     },
     methods: {
         ...mapMutations(['add', 'reduce']),
