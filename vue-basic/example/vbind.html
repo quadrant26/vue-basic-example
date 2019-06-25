@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+    <script src="../assets/js/vue.js"></script>
+    <link rel="stylesheet" href="../assets/css/bindclass.css">
+    <meta name="referrer" content="no-referrer" />
+</head>
+<body>
+    <h1>v-bind</h1>
+    <hr>
+    <div id="app">
+        <p><img v-bind:src="imgSrc" width="200px"></p>
+        <p><a :href='webUrl' target="_blank">放肆</a></p>
+        <div :class="className">1、 绑定Class</div>
+        <div :class="{classA: isOk}">2、 绑定Class中的判断</div>
+        <div :class="[classA, classB]">3、绑定class中的数组</div>
+        <div :class="isOk?classA:classB">4、绑定class中使用三元表达式判断</div>
+        <div :style="{color:red,fontSize:font}">5、绑定style</div>
+        <div :style="styleObject">6、用对象绑定style样式</div>
+        <hr>
+        <div>
+            <input type="checkbox" id="isOk" v-model="isOk">
+            <label for="isOk">isOk={{isOk}}</label>
+        </div>
+    </div>
+ 
+    <script type="text/javascript">
+        var app=new Vue({
+            el:'#app',
+            data:{
+                imgSrc:'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1478438765,1065599487&fm=85&app=63&f=JPEG?w=121&h=75&s=40019157F033538CFDB118300300A063',
+                webUrl: 'https://www.bilibili.com',
+                className: 'classA',
+                classA: 'classA',
+                classB: 'classB',
+                isOk: false,
+                red: 'red',
+                font: '54px',
+                styleObject:{
+                    fontSize:'24px',
+                    color:'green',
+                    classA: 'classA'
+                }
+            }
+        })
+    </script>
+</body>
+</html>
