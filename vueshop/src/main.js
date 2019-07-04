@@ -3,11 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueLazyload from 'vue-lazyload'  //引入这个懒加载插件
 // import Vant from 'vant'
 // import 'vant/lib/index.css'
-import {Button, Row, Col} from 'vant'
+import {Button, Row, Col, Swipe, SwipeItem} from 'vant'
 
-Vue.use(Button).use(Row).use(Col)
+Vue.use(VueLazyload)
+Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem)
 
 Vue.config.productionTip = false
 
