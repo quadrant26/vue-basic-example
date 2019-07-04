@@ -2,30 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scaleable=no">
     <title>vueshop</title>
-    <style>
-    .test{
-      width:20rem;
-      height:10rem;
-      background-color: bisque;
-      text-align: center;
-    }
-    .hello{
-      color:red;
-      font-size: 1rem;
-    }
-    </style>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
-    <div class="test">
-      <p class="hello">Hello, Vue</p>
-    </div>
     <script>
     let htmlWidth = document.documentElement.clientWidth || document.body.clientWidth;
     let htmlDom = document.getElementsByTagName("html")[0];
+    if(htmlWidth>750)htmlWidth=750;
     htmlDom.style.fontSize = htmlDom/20 + 'px';
 
     </script>
