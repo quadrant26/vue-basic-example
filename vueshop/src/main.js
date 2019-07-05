@@ -6,12 +6,12 @@ import router from './router'
 import VueLazyload from 'vue-lazyload'  //引入这个懒加载插件
 // import Vant from 'vant'
 // import 'vant/lib/index.css'
-import {Button, Row, Col, Swipe, SwipeItem} from 'vant'
+import {Button, Row, Col, Swipe, SwipeItem, List} from 'vant'
 // import VueAwesomeSwiper from 'vue-awesome-swiper'
 // import 'swiper/dist/css/swiper.css'
 
 Vue.use(VueLazyload)
-Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem)
+Vue.use(Button).use(Row).use(Col).use(Swipe).use(SwipeItem).use(List)
 // Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false
