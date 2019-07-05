@@ -74,6 +74,7 @@ import 'swiper/dist/css/swiper.css'
 import floorComponent from '../component/floorComponent'
 import { toMoney } from '@/filter/moneyFilter.js'
 import goodsInfo from '../component/goodsInfoComponent'
+import url from '@/serviceApiConfig.js'
 export default {
     data (){
         return {
@@ -113,7 +114,7 @@ export default {
     },
     created() {
         axios({
-            url: 'https://www.easy-mock.com/mock/5d1dcefabaa6bf73722f7ec9/vueshop/index',
+            url: url.getShoppingMallInfo,
             method: 'get',
         }).then( response => {
             console.log(response)
