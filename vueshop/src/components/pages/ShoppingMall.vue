@@ -47,12 +47,17 @@
                 </swiper>
             </div>
         </div>
+        <!--begin: floor -->
+        <floor-component :floorData="floor1" :floorTitle="floorName.floor1"></floor-component>
+        <floor-component :floorData="floor2" :floorTitle="floorName.floor2"></floor-component>
+        <floor-component :floorData="floor2" :floorTitle="floorName.floor3"></floor-component>
     </div>
 </template>
 <script>
 import axios from 'axios'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import floorComponent from '../component/floorComponent'
 export default {
     data (){
         return {
@@ -71,12 +76,17 @@ export default {
             ],
             category: [],
             adBanner: '',
-            recommendGoods: []
+            recommendGoods: [],
+            floor1: [],
+            floor2: [],
+            floor3: [],
+            floorName: {},
         }
     },
     components: {
         swiper,
-        swiperSlide
+        swiperSlide,
+        floorComponent
     },
     created() {
         axios({
@@ -89,6 +99,11 @@ export default {
                 this.adBanner = response.data.data.advertesPicture
                 this.bannerPicArray = response.data.data.slides
                 this.recommendGoods = response.data.data.recommend
+                this.floor1 = response.data.data.floor1
+                this.floor2 = response.data.data.floor2
+                this.floor3 = response.data.data.floor3
+                this.floorName = response.data.data.floorName
+                console.log(this.floorName)
             }
         }).catch( error => {
             console.log(error)
