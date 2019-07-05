@@ -51,6 +51,20 @@
         <floor-component :floorData="floor1" :floorTitle="floorName.floor1"></floor-component>
         <floor-component :floorData="floor2" :floorTitle="floorName.floor2"></floor-component>
         <floor-component :floorData="floor2" :floorTitle="floorName.floor3"></floor-component>
+        <!--begin 热卖商品 -->
+        <div class="hot-area">
+            <div class="hot-title">热卖商品</div>
+            <div class="hot-goods">
+            <!--这里需要一个list组件-->
+                <van-list>
+                    <van-row gutter="20">
+                        <van-col span="12" v-for="(item, index) in hotGoods" :key="index">
+                            <goods-info :goodsImage="item.image" :goodsName="item.name" :goodsPrice="item.price"></goods-info>
+                        </van-col>
+                    </van-row>
+                </van-list>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -59,6 +73,7 @@ import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import floorComponent from '../component/floorComponent'
 import { toMoney } from '@/filter/moneyFilter.js'
+import goodsInfo from '../component/goodsInfoComponent'
 export default {
     data (){
         return {
@@ -82,12 +97,14 @@ export default {
             floor2: [],
             floor3: [],
             floorName: {},
+            hotGoods: []
         }
     },
     components: {
         swiper,
         swiperSlide,
-        floorComponent
+        floorComponent,
+        goodsInfo
     },
     filters: {
         moneyFilter (money){
@@ -109,7 +126,7 @@ export default {
                 this.floor2 = response.data.data.floor2
                 this.floor3 = response.data.data.floor3
                 this.floorName = response.data.data.floorName
-                console.log(this.floorName)
+                this.hotGoods = response.data.data.hotGoods
             }
         }).catch( error => {
             console.log(error)
@@ -174,5 +191,11 @@ export default {
     border-right:1px solid #eee;
     font-size: 12px;
     text-align: center;
+}
+.hot-area{
+    text-align: center;
+    font-size:14px;
+    height: 1.8rem;
+    line-height:1.8rem;
 }
 </style>
