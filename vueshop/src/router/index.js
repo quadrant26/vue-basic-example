@@ -13,6 +13,6 @@ export default new Router({
     {path: '/', name: 'ShoppingMall', component: ShoppingMall },
     {path: '/register', name: 'register', component: Register},
     {path: '/login', name: 'login', component: Login},
-    {path: '/goods', name: 'goods', component: Goods}
+    {path: '/Goods', name: 'Goods', component: Goods}
   ]
 })
