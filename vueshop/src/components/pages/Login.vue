@@ -62,16 +62,23 @@ export default {
                 }
             }).then( (response) => {
                 console.log(response)
-                
+                if ( response.data.code == 200 && response.data.message){
+                    Toast.success('登录成功')
+                    this.$router.push('/')
+                }else{
+                    Toast.fail('登录失败')
+                    this.openLoading = false;
+                }
             }).catch( (error) => {
-                console.log(error)
+                Toast.fail('登录失败')
+                this.openLoading = false;
             })
         },
         // 表单验证
         checkFrom (){
             let isOk = true
-            if ( this.username.length < 5 ){
-                this.usernameErrorMsg = "用户名长度不能少于5位"
+            if ( this.username.length < 4 ){
+                this.usernameErrorMsg = "用户名长度不能少于4位"
                 isOk = false
             }else{
                 this.usernameErrorMsg = ""
@@ -83,7 +90,6 @@ export default {
             }else{
                 this.passwordErrorMsg = ""
             }
-
             return isOk
         }
     }
