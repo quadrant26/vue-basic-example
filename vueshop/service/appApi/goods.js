@@ -22,7 +22,26 @@ router.get('/insertAllGoodsInfo', async(ctx) => {
             })
         })
     })
-    ctx.body = "开始导入数据"
+    ctx.body = "开始导入 Goods 数据"
+})
+
+router.get('/insertAllCategory', async(ctx) => {
+    fs.readFile('./data_json/category.json', 'utf8', (err, data) => {
+        data = JSON.parse(data)
+        let saveCount = 0
+        const Category = mongoose.model('Category')
+        data.RECORDS.map( (value, index) => {
+            console.log(value)
+            let category = new Category(value)
+            category.save().then( ()=> {
+                saveCount++
+                console.log('插入成功'+saveCount)
+            }).catch( (error) => {
+                console.log(error)
+            })
+        })
+    })
+    ctx.body = "开始导入 category 数据"
 })
 
 module.exports = router
