@@ -8,12 +8,14 @@
 import axios from 'axios'
 import url from '@/serviceApiConfig.js'
 export default {
+    props: [],
     data (){
         return {
-            goodsId: '00b417a0f3444bb6965f4ba2dbafbed0'
+            goodsId: ''
         }
     },
     created (){
+        this.goodsId = this.$route.query.goodsId
         this.getInfo()
     },
     methods: {
