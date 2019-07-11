@@ -10,8 +10,8 @@
                 <van-col span="6">
                     <div id="leftNav">
                         <ul>
-                            <li v-for="(item, index) in category" :key="index" @click="clickCategory(index, item.ID)"
-                            :class="{categoryActive:categoryIndex==index}">
+                            <li @click="clickCategory(index, item.ID)" :class="{categoryActive:categoryIndex==index}" v-for="(item, index) in category" :key="index"
+                            >
                                 {{item.MALL_CATEGORY_NAME}}
                             </li>
                         </ul>
@@ -19,14 +19,20 @@
                 </van-col>
                 <van-col span="18">
                     <div class="tabCategorySub">
-                        <van-tabs v-model="active">
+                        <van-tabs v-model="active" @click="onClickCategorySub">
                             <van-tab v-for="(item, index) in categorySub" :key="index" :title="item.MALL_SUB_NAME"></van-tab>
                         </van-tabs>
                     </div>
                     <div id="list-div">
                         <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
                             <van-list v-model="loadding" :finished="finished" @load="onLoading">
-                                <div class="list-item" v-for="(item, index) in list" :key="index">{{item}}</div>
+                                <div class="list-item" v-for="(item, index) in goodList" :key="index">
+                                    <div class="list-item-img"><img :src="item.IMAGE1" width="100%"/></div>
+                                    <div class="list-item-text">
+                                        <div>{{item.NAME}}</div>
+                                        <div class="">￥{{item.ORI_PRICE}}</div>
+                                    </div>
+                                </div>
                             </van-list>
                         </van-pull-refresh>
                     </div>
@@ -51,7 +57,9 @@ export default {
             loadding: false, // 上拉加载使用
             finished: false, // 上拉加载是否有数据
             isRefresh:false, // 下拉加载
-            list: [], // 商品数据
+            goodList: [], // 商品列表数据
+            page: 1, // 商品列表页数
+            categorySubID: "", // 商品子类id
         }
     },
     created (){
@@ -82,6 +90,9 @@ export default {
         },
         clickCategory(index, categoryId){
             this.categoryIndex=index
+            this.page = 1
+            this.finished = false
+            this.goodList = []
             this.getCategorySubByCategoryId(categoryId)
         },
         //根据大类ID读取小类类别列表
@@ -97,6 +108,8 @@ export default {
                 if ( response.data.code == 200 && response.data.message){
                     this.active = 0
                     this.categorySub = response.data.message
+                    this.categorySubID = this.categorySub[0].ID
+                    this.onLoading();
                 }else{
                     Toast('服务器错误，数据获取错误')
                 }
@@ -107,23 +120,48 @@ export default {
         // 上拉加载
         onLoading (){
             setTimeout(()=> {
-                for(let i = 0; i < 10; i++){
-                    this.list.push(this.list.length + 1)
-                }
-                this.loadding = false
-                if ( this.list.length >= 40){
-                    this.finished = true
-                }
+                this.categorySubID = this.categorySubID ? this.categorySubID : this.categorySub[0].ID
+                this.getGoodList()
             }, 500)
         },
         onRefresh (){
             setTimeout(()=>{
                 this.isRefresh = false;
-                this.list = [];
+                this.goodList = [];
                 this.onLoading();
                 // 重置上拉加载状态
                 this.finished = false;
             }, 500)
+        },
+        getGoodList (){
+            axios({
+                url: url.getGoodsListByCategorySubID,
+                method: 'post',
+                data: {
+                    categorySubId: this.categorySubID,
+                    page: this.page
+                }
+            }).then(response=>{
+                console.log(response)
+                if(response.data.code == 200 && response.data.message.length ){
+                    this.page++
+                    this.goodList=this.goodList.concat(response.data.message)
+                }else{
+                    this.finished = true;
+                }
+                this.loading=false;
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+        },
+        onClickCategorySub (index, title){
+            this.categorySubID = this.categorySub[index].ID
+            console.log( "categorySubID" + this.categorySubID)
+            this.goodList = []
+            this.finished = false
+            this.page = 1
+            this.onLoading()
         }
     }
 }
@@ -144,12 +182,22 @@ export default {
     background-color: #fff;
 }
 .list-item{
-    text-align: center;
-    line-height: 80px;
+    display: flex;
+    flex-direction: row;
+    font-size:0.8rem;
     border-bottom: 1px solid #f0f0f0;
     background-color: #fff;
+    padding:5px;
 }
 #list-div{
     overflow: scroll;
+}
+.list-item-img{
+    flex:8;
+}
+.list-item-text{
+    flex:16;
+    margin-top:10px;
+    margin-left:10px;
 }
 </style>
