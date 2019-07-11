@@ -26,11 +26,13 @@
                     <div id="list-div">
                         <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
                             <van-list v-model="loadding" :finished="finished" @load="onLoading">
-                                <div class="list-item" v-for="(item, index) in goodList" :key="index">
-                                    <div class="list-item-img"><img :src="item.IMAGE1" width="100%"/></div>
+                                <div class="list-item" v-for="(item, index) in goodList" :key="index" @click="goGoodsInfo(item.ID)">
+                                    <div class="list-item-img">
+                                        <img :src="item.IMAGE1" width="100%" :onerror="errorImg"/>
+                                    </div>
                                     <div class="list-item-text">
                                         <div>{{item.NAME}}</div>
-                                        <div class="">￥{{item.ORI_PRICE}}</div>
+                                        <div class="">￥{{item.ORI_PRICE | moneyFilter}} </div>
                                     </div>
                                 </div>
                             </van-list>
@@ -46,6 +48,7 @@
 import axios from 'axios'
 import url from '@/serviceApiConfig.js'
 import { Toast } from 'vant'
+import { toMoney } from '@/filter/moneyFilter.js'
 
 export default {
     data (){
@@ -60,6 +63,7 @@ export default {
             goodList: [], // 商品列表数据
             page: 1, // 商品列表页数
             categorySubID: "", // 商品子类id
+            errorImg: 'this.src="'+ require('@/assets/images/errorimg.png') +'"'
         }
     },
     created (){
@@ -128,6 +132,7 @@ export default {
             setTimeout(()=>{
                 this.isRefresh = false;
                 this.goodList = [];
+                this.page = 1;
                 this.onLoading();
                 // 重置上拉加载状态
                 this.finished = false;
@@ -162,6 +167,15 @@ export default {
             this.finished = false
             this.page = 1
             this.onLoading()
+        },
+        // 跳转到商品详情页
+        goGoodsInfo (id){
+            this.$router.push({"name": 'Goods', params: {goodsId: id}})
+        }
+    },
+    filters: {
+        moneyFilter (money){
+            return toMoney(money)
         }
     }
 }
