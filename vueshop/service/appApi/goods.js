@@ -88,7 +88,7 @@ router.get('/getCategoryList', async (ctx) => {
 })
 
 // 读取类别 *** 小类
-router.get('/getCategorySubList', async (ctx) => {
+router.post('/getCategorySubList', async (ctx) => {
     try{
         let categoryId = ctx.request.body.categoryId
         const CategorySub = mongoose.model('CategorySub')
@@ -100,7 +100,7 @@ router.get('/getCategorySubList', async (ctx) => {
 })
 
 // 根据商品分类获取列表
-router.get('/getGoodsListByCategorySubID', async (ctx) => {
+router.post('/getGoodsListByCategorySubID', async (ctx) => {
     try{
         let categorySubId = ctx.request.body.categorySubId
         const Goods = mongoose.model('Goods')
