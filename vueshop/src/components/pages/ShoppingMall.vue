@@ -171,6 +171,7 @@ export default {
     padding: 0.3rem;
     font-size:12px;
     text-align: center;
+    flex:1;
 }
 .type-bar div img{ width:100%;}
 .recommend-area{
