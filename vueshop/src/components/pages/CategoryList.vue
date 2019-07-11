@@ -24,9 +24,11 @@
                         </van-tabs>
                     </div>
                     <div id="list-div">
-                        <van-list v-model="loadding" :finished="finished" @load="onLoading">
-                            <div class="list-item" v-for="(item, index) in list" :key="index">{{item}}</div>
-                        </van-list>
+                        <van-pull-refresh v-model="isRefresh" @refresh="onRefresh">
+                            <van-list v-model="loadding" :finished="finished" @load="onLoading">
+                                <div class="list-item" v-for="(item, index) in list" :key="index">{{item}}</div>
+                            </van-list>
+                        </van-pull-refresh>
                     </div>
                 </van-col>
             </van-row>
@@ -46,8 +48,9 @@ export default {
             categoryIndex: 0,
             categorySub: [],
             active: 0,
-            loadding: false,
+            loadding: false, // 上拉加载使用
             finished: false, // 上拉加载是否有数据
+            isRefresh:false, // 下拉加载
             list: [], // 商品数据
         }
     },
@@ -111,6 +114,15 @@ export default {
                 if ( this.list.length >= 40){
                     this.finished = true
                 }
+            }, 500)
+        },
+        onRefresh (){
+            setTimeout(()=>{
+                this.isRefresh = false;
+                this.list = [];
+                this.onLoading();
+                // 重置上拉加载状态
+                this.finished = false;
             }, 500)
         }
     }
