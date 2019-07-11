@@ -76,4 +76,39 @@ router.post('/getDetailGoodsInfo', async (ctx) => {
     })
 })
 
+// 读取类别 *** 大类
+router.get('/getCategoryList', async (ctx) => {
+    try{
+        const Category = mongoose.model('Category')
+        let result = await Category.find().exec()
+        ctx.body = { code: 200, message: result}
+    }catch(error){
+        ctx.body = { code: 500, message: error}
+    }
+})
+
+// 读取类别 *** 小类
+router.get('/getCategorySubList', async (ctx) => {
+    try{
+        let categoryId = ctx.request.body.categoryId
+        const CategorySub = mongoose.model('CategorySub')
+        let result = await CategorySub.find({MALL_CATEGORY_ID: categoryId}).exec()
+        ctx.body = { code: 200, message: result}
+    }catch(error){
+        ctx.body = { code: 500, message: error}
+    }
+})
+
+// 根据商品分类获取列表
+router.get('/getGoodsListByCategorySubID', async (ctx) => {
+    try{
+        let categorySubId = ctx.request.body.categorySubId
+        const Goods = mongoose.model('Goods')
+        let result = await Goods.find({SUB_ID: categorySubId}).exec()
+        ctx.body = { code: 200, message: result}
+    }catch(error){
+        ctx.body = { code: 500, message: error}
+    }
+})
+
 module.exports = router
