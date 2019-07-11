@@ -23,6 +23,11 @@
                             <van-tab v-for="(item, index) in categorySub" :key="index" :title="item.MALL_SUB_NAME"></van-tab>
                         </van-tabs>
                     </div>
+                    <div id="list-div">
+                        <van-list v-model="loadding" :finished="finished" @load="onLoading">
+                            <div class="list-item" v-for="(item, index) in list" :key="index">{{item}}</div>
+                        </van-list>
+                    </div>
                 </van-col>
             </van-row>
         </div>
@@ -40,7 +45,10 @@ export default {
             category: [],
             categoryIndex: 0,
             categorySub: [],
-            active: 0
+            active: 0,
+            loadding: false,
+            finished: false, // 上拉加载是否有数据
+            list: [], // 商品数据
         }
     },
     created (){
@@ -49,6 +57,7 @@ export default {
     mounted (){
         let winHeight = document.documentElement.clientHeight
         document.getElementById("leftNav").style.height= winHeight-46 +'px'
+        document.getElementById('list-div').style.height=winHeight-90 +'px'
     },
     methods: {
         // 获取分类类别
@@ -91,6 +100,18 @@ export default {
             }).catch(error => {
                 console.log(error)
             })
+        },
+        // 上拉加载
+        onLoading (){
+            setTimeout(()=> {
+                for(let i = 0; i < 10; i++){
+                    this.list.push(this.list.length + 1)
+                }
+                this.loadding = false
+                if ( this.list.length >= 40){
+                    this.finished = true
+                }
+            }, 500)
         }
     }
 }
@@ -109,5 +130,14 @@ export default {
 }
 .categoryActive{
     background-color: #fff;
+}
+.list-item{
+    text-align: center;
+    line-height: 80px;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #fff;
+}
+#list-div{
+    overflow: scroll;
 }
 </style>
