@@ -18,13 +18,22 @@
                         <van-stepper v-model="item.count"></van-stepper>
                     </div>
                 </div>
-                <div class="pang-goods-price">{{item.price}}</div>
+                <div class="pang-goods-price">
+                    <div>￥ {{item.price | moneyFilter}}</div>
+                    <div>x{{item.count}}</div>
+                    <div class="allPrice">￥{{item.price*item.count | moneyFilter}}</div>
+                </div>
             </div>
+        </div>
+        <!-- 显示总价 -->
+        <div class="totalMoney">
+            商品总价：￥{{totalMoney | moneyFilter}}
         </div>
     </div>
 </template>
 
 <script>
+import {toMoney} from '@/filter/moneyFilter.js'
 export default {
     data (){
         return {
@@ -35,9 +44,19 @@ export default {
     created (){
         this.getCartInfo()
     },
+    computed :{
+        totalMoney (){
+            let allMoney = 0
+            this.cartInfo.forEach( (item, index) => {
+                allMoney += item.price*item.count
+            })
+            localStorage.cartInfo = JSON.stringify(this.cartInfo)
+            return allMoney;
+        }
+    },
     methods: {
         getCartInfo (){
-            if(localStorage.cartInfo != "undefined"){
+            if(localStorage.cartInfo != undefined){
                 this.cartInfo = JSON.parse(localStorage.cartInfo)
             }
             console.log( 'this.cartInfo:' + JSON.stringify(this.cartInfo))
@@ -47,6 +66,11 @@ export default {
             this.cartInfo = [];
             localStorage.removeItem('cartInfo');
             isEmpty: false;
+        }
+    },
+    filters: {
+        moneyFilter (money){
+            return toMoney(money)
         }
     }
 }
@@ -85,5 +109,14 @@ export default {
 .pang-goods-price{
     flex:4;
     text-align: right;
+}
+.allPrice{
+    color:red
+}
+.totalMoney{
+    text-align: right;
+    background-color: #fff;
+    border-bottom:1px solid #E4E7ED;
+    padding:5px;
 }
 </style>
