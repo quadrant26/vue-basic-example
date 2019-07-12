@@ -21,7 +21,19 @@ export default {
             active: 0
         }
     },
+    created (){
+        this.changeTabBarActive();
+    },
+    updated (){
+        this.changeTabBarActive();
+    },
     methods: {
+        changeTabBarActive (){
+            this.nowPath = this.$route.path
+            if ( this.nowPath == "/Cart"){
+                this.active = 2
+            }
+        },
         changeTabbar (active){
             console.log(active)
             switch(active){
