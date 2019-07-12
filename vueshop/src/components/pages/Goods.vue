@@ -78,10 +78,8 @@ export default {
             this.$router.go(-1)
         },
         addGoodsCart (){
-            console.log(typeof (localStorage.cartInfo));
             let cartInfo = (localStorage.cartInfo != undefined) ? JSON.parse(localStorage.cartInfo) : []
             let isHaveGoods = cartInfo.find( cart => cart.goodsId == this.goodsId)
-            console.log(isHaveGoods)
             if ( !isHaveGoods ){
                 let newGoodsInfo = {
                     goodsId: this.goodsInfo.ID,
